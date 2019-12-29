@@ -25,6 +25,16 @@ describe('HeroComponent (shallow test', () => {
         fixture.componentInstance.hero = {id: 1, name: 'SuperMan', strength: 3};
         fixture.detectChanges();
 
+        /*
+        Debug Element is a wrapper that provides additional functionality when compared to nativeElement
+        fixture.debugElement - obtains the root debug element
+        query() - for querying for a specific element inside the root debug element
+        query method accepts a predicate
+        By - is a special library that built-in methods to select an element. Elements can be selected using css()
+        debugElementAnchor.nativeElement - Every DOM element will be wrapped in a debug element, to access the
+        actual native element we use the nativeElement property
+        textContent - extracts text content from the anchor element
+        */
         const debugElementAnchor = fixture.debugElement.query(By.css('a'));
         expect(debugElementAnchor.nativeElement.textContent).toContain('SuperMan');
 
