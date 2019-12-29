@@ -25,6 +25,9 @@ describe('HeroComponent (shallow test', () => {
         fixture.componentInstance.hero = {id: 1, name: 'SuperMan', strength: 3};
         fixture.detectChanges();
 
-        expect(fixture.nativeElement.querySelector('a').textContent).toContain('SuperMan');
+        const debugElementAnchor = fixture.debugElement.query(By.css('a'));
+        expect(debugElementAnchor.nativeElement.textContent).toContain('SuperMan');
+
+        // expect(fixture.nativeElement.querySelector('a').textContent).toContain('SuperMan');
     })
 });
