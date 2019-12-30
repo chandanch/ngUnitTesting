@@ -39,5 +39,5 @@ describe('HeroComponent (shallow test)', () => {
         expect(debugElementAnchor.nativeElement.textContent).toContain('SuperMan');
 
         // expect(fixture.nativeElement.querySelector('a').textContent).toContain('SuperMan');
-    })
+    });
 });
