@@ -4,6 +4,7 @@ import { HeroService } from '../hero.service';
 import { NO_ERRORS_SCHEMA, Component, Input, Output } from '@angular/core';
 import { of } from 'rxjs/index';
 import { Hero } from '../hero';
+import { By } from '@angular/platform-browser';
 
 describe('HerosComponent (shallow test)', () => {
     let fixture: ComponentFixture<HeroesComponent>;
@@ -43,9 +44,23 @@ describe('HerosComponent (shallow test)', () => {
 
     it('should bind data returned from getHeroes() of HeroService to heroes property', () => {
         mockHeroService.getHeroes.and.returnValue(of(HEROES));
-        // detechChanges() - Re-runs the lifecycle hook and fire the lifecycle event such as ngOnInit()
+        // detechChanges() - Triggers change detection cycle for a component and fires the lifecycle event such as ngOnInit()
         fixture.detectChanges();
 
         expect(fixture.componentInstance.heroes.length).toEqual(3);
+    });
+
+    it('should create an li element for each hero', () => {
+        mockHeroService.getHeroes.and.returnValue(of(HEROES));
+        fixture.detectChanges();
+
+        expect(fixture.debugElement.queryAll(By.css('li')).length).toBe(3);
+    });
+
+    it('should create an app-hero element for each hero', () => {
+        mockHeroService.getHeroes.and.returnValue(of(HEROES));
+        fixture.detectChanges();
+
+        expect(fixture.debugElement.queryAll(By.css('app-hero')).length).toBe(3);
     });
 });
