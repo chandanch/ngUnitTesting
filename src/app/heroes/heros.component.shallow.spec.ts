@@ -61,6 +61,7 @@ describe('HerosComponent (shallow test)', () => {
         mockHeroService.getHeroes.and.returnValue(of(HEROES));
         fixture.detectChanges();
 
-        expect(fixture.debugElement.queryAll(By.css('app-hero')).length).toBe(3);
+        const appHeroDebugElements = fixture.debugElement.queryAll(By.css('app-hero'));
+        expect(appHeroDebugElements.length).toBe(3);
     });
 });
