@@ -86,4 +86,37 @@ describe('HerosComponent (deep test)', () => {
 
     });
 
+    it(`should call the delete() in the HerosComponent
+        and verify if delete event exist in HeroComponent`, () => {
+            // spy on the the delete method to verify if its called
+            spyOn(fixture.componentInstance, 'delete');
+            mockHeroService.getHeroes.and.returnValue(of(HEROES));
+
+            fixture.detectChanges();
+            const heroComponents = fixture.debugElement.queryAll(By.directive(HeroComponent));
+            // trigger the delete event from child component(instead of triggering the click event).
+            // here the child component just raises the event
+            heroComponents[0].triggerEventHandler('delete', null);
+
+            expect(fixture.componentInstance.delete).toHaveBeenCalledWith(HEROES[0]);
+
+    });
+
+    it('should add a new hero to hero list when add button is clicked', () => {
+        mockHeroService.getHeroes.and.returnValue(of(HEROES));
+        fixture.detectChanges();
+        const heroName = 'ValaMan';
+        mockHeroService.addHero.and.returnValue(of({id: 5, name: heroName, strength: 20}));
+        const inputElement: HTMLInputElement = fixture.debugElement.query(By.css('input')).nativeElement;
+        const addButton = fixture.debugElement.queryAll(By.css('button'))[0];
+
+        inputElement.value = heroName;
+        addButton.triggerEventHandler('click', null);
+        fixture.detectChanges();
+        const heroText = fixture.debugElement.query(By.css('ul')).nativeElement.textContent;
+
+        expect(heroText).toContain(heroName);
+
+    });
+
 });
