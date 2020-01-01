@@ -1,4 +1,4 @@
-import { TestBed, ComponentFixture, fakeAsync, tick, flush } from '@angular/core/testing';
+import { TestBed, ComponentFixture, fakeAsync, tick, flush, async } from '@angular/core/testing';
 import { HeroDetailComponent } from './hero-detail.component';
 import { HeroService } from '../hero.service';
 import { Location } from '@angular/common';
@@ -43,7 +43,7 @@ describe('HeroDetails', () => {
     });
 
     // use of fakeAsync provided by angular to handle async code
-    it('should call updateHero() when save() is called', fakeAsync(() => {
+    it('should call updateHero() when save() is called (using tick())', fakeAsync(() => {
         mockHeroService.updateHero.and.returnValue(of());
         fixture.detectChanges();
 
@@ -57,7 +57,7 @@ describe('HeroDetails', () => {
 
     }));
 
-    it('should call updateHero() when save() is called', fakeAsync(() => {
+    it('should call updateHero() when save() is called (using flush())', fakeAsync(() => {
         mockHeroService.updateHero.and.returnValue(of());
         fixture.detectChanges();
 
@@ -68,6 +68,22 @@ describe('HeroDetails', () => {
         flush();
 
         expect(mockHeroService.updateHero).toHaveBeenCalled();
+
+    }));
+
+    it('should call updateHero() when save() is called (using async())', async(() => {
+        mockHeroService.updateHero.and.returnValue(of());
+        fixture.detectChanges();
+
+        fixture.componentInstance.save();
+
+        // whenStable() - returns a promise once all the promises are resolved in the component
+        // i.e. whenStabe() is fullified once the component is stablized
+        // works only with promise, does not work with intervals or timeouts
+        fixture.whenStable().then(() => {
+            expect(mockHeroService.updateHero).toHaveBeenCalled();
+
+        });
 
     }));
 });
