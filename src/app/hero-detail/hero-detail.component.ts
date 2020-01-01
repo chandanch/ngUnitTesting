@@ -33,8 +33,28 @@ export class HeroDetailComponent implements OnInit {
     this.location.back();
   }
 
- save(): void {
-    this.heroService.updateHero(this.hero)
-      .subscribe(() => this.goBack());
+  save(): void {
+    deBounce(() => {
+      this.heroService.updateHero(this.hero)
+        .subscribe(() => this.goBack());
+    }, 200, false);
   }
+}
+
+function deBounce(func, wait, immediate) {
+  let timeout;
+  return function() {
+    const context = this, args = arguments;
+    const later = function() {
+      timeout = null;
+      console.log(later);
+      if (!immediate) { func.apply(context, args); }
+
+    };
+    const callnow = immediate && !timeout;
+    clearTimeout(timeout);
+    if (callnow) {
+      func.apply(context, args);
+    }
+  };
 }
