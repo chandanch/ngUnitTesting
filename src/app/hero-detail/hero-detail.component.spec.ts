@@ -77,7 +77,7 @@ describe('HeroDetails', () => {
 
         fixture.componentInstance.save();
 
-        // whenStable() - returns a promise once all the promises are resolved in the component
+        // whenStable() - returns a promise once all the promises in the component are resolved
         // i.e. whenStabe() is fullified once the component is stablized
         // works only with promise, does not work with intervals or timeouts
         fixture.whenStable().then(() => {
