@@ -1,4 +1,4 @@
-import { TestBed, ComponentFixture } from '@angular/core/testing';
+import { TestBed, ComponentFixture, fakeAsync, tick } from '@angular/core/testing';
 import { HeroDetailComponent } from './hero-detail.component';
 import { HeroService } from '../hero.service';
 import { Location } from '@angular/common';
@@ -41,4 +41,19 @@ describe('HeroDetails', () => {
 
         expect(fixture.debugElement.query(By.css('h2')).nativeElement.textContent).toContain('WATERMAN');
     });
+
+    // use of fakeAsync provided by angular to handle async code
+    it('should call updateHero() when save() is called', fakeAsync(() => {
+        mockHeroService.updateHero.and.returnValue(of());
+        fixture.detectChanges();
+
+        fixture.componentInstance.save();
+        // fast forwards the time in the zone to 250 millis
+        // angular uses zone for handling async code, with tick the test will be part of the zone
+        // with zone we can fast forward the time to make the code synchronous
+        tick(250);
+
+        expect(mockHeroService.updateHero).toHaveBeenCalled();
+
+    }));
 });

@@ -37,7 +37,7 @@ export class HeroDetailComponent implements OnInit {
     deBounce(() => {
       this.heroService.updateHero(this.hero)
         .subscribe(() => this.goBack());
-    }, 200, false);
+    }, 250, false)();
   }
 }
 
@@ -47,12 +47,13 @@ function deBounce(func, wait, immediate) {
     const context = this, args = arguments;
     const later = function() {
       timeout = null;
-      console.log(later);
+      // console.log(later);
       if (!immediate) { func.apply(context, args); }
 
     };
     const callnow = immediate && !timeout;
     clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
     if (callnow) {
       func.apply(context, args);
     }
