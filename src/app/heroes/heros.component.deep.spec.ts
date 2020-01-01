@@ -68,6 +68,22 @@ describe('HerosComponent (deep test)', () => {
 
             expect(fixture.componentInstance.delete).toHaveBeenCalledWith(HEROES[0]);
 
-    })
+    });
+
+    it(`should call the delete() in the HerosComponent
+        when delete event is raised by HeroComponent`, () => {
+            // spy on the the delete method to verify if its called
+            spyOn(fixture.componentInstance, 'delete');
+            mockHeroService.getHeroes.and.returnValue(of(HEROES));
+
+            fixture.detectChanges();
+            const heroComponents = fixture.debugElement.queryAll(By.directive(HeroComponent));
+            // trigger the delete event from child component(instead of triggering the click event).
+            // here the child component just raises the event
+            (<HeroComponent>heroComponents[0].componentInstance).delete.emit(null);
+
+            expect(fixture.componentInstance.delete).toHaveBeenCalledWith(HEROES[0]);
+
+    });
 
 });
